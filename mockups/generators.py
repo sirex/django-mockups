@@ -526,7 +526,8 @@ class ChoiceFieldGenerator(FieldGenerator):
 class ForeignKeyFieldGenerator(FieldGenerator):
     def get_generator(self, field, generate_fk=None, follow_fk=None, **kwargs):
         # if generate_fk is set, follow_fk is ignored.
-        if field.name in generate_fk:
+        # also generate fk if field is unique to ensure uniqueness.
+        if field.name in generate_fk or self.field.unique:
             mockup = get_mockup(
                 field.rel.to,
                 follow_fk=follow_fk.get_deep_links(field.name),

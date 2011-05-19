@@ -100,7 +100,8 @@ class Mockup(object):
 
             ``generate_fk``: A boolean which indicates if related models should
             also be created with random values. The *follow_fk* parameter will
-            be ignored if *generate_fk* is set to ``True``.
+            be ignored if *generate_fk* is set to ``True`` or foreign field is
+            unique.
 
             ``follow_m2m``: A tuple containing minium and maximum of model
             instances that are assigned to ``ManyToManyField``. No new

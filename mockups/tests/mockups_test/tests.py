@@ -145,15 +145,15 @@ class TestRelations(TestCase):
                 self.assertEqual(obj.related, related)
                 self.assertEqual(obj.limitedfk, None)
 
-    def test_follow_fk_for_o2o(self):
+    def test_unique_fk_for_o2o(self):
         # OneToOneField is the same as a ForeignKey with unique=True
-        filler = Mockup(O2OModel, follow_fk=True)
+        filler = Mockup(O2OModel)
 
-        simple = SimpleModel.objects.create()
-        obj = filler.create()[0]
-        self.assertEqual(obj.o2o, simple)
+        all_o2o = set()
+        for obj in filler.create(10):
+            all_o2o.add(obj.o2o)
 
-        self.assertRaises(CreateInstanceError, filler.create)
+        self.assertEqual(set(SimpleModel.objects.all()), all_o2o)
 
     def test_generate_fk_for_o2o(self):
         # OneToOneField is the same as a ForeignKey with unique=True
